@@ -1,0 +1,5 @@
+<h2 onclick="getDownload('audio', '{{streams[1].resolution}}')">Audio MP3</h2>
+{% for s in streams %}
+    <h2 onclick="getDownload('video', '{{s.resolution}}')">Video {{s.resolution}}</h2>
+
+{% endfor %}    
