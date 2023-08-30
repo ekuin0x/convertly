@@ -23,11 +23,12 @@
         </div>
 
         <div id="events-wrapper">
-            <div id="loading-streams">
+            <div id="loading">
                 <div id="loading-bar" ><img src="{{url_for('static', filename='media/giphy.gif')}}" alt=""></div>
-                <p>Won't take more than a minute ! , Please wait </p>
+                <p>Won't take more than a minute ! <br> Please wait </p>
             </div>
             <br>
+            <a id="download-ready" onclick='notification()' href='' download><p class='mssg'>Download</p></a>
         </div>
 
     </div>

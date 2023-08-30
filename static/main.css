@@ -138,7 +138,15 @@ a{
     transition: all .3s;
 }
 
-#loading-streams{
+.aud{
+    border: 2px solid rgb(70, 127, 233) !important;
+}
+
+#loading{
+    display: none;
+}
+
+#download-ready{
     display: none;
 }
 

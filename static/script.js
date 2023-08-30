@@ -12,22 +12,27 @@ const validateUrl = () =>{
 }
 
 const getStreams = async(url_string)=>{
-    $("#loading-streams").css("display", "unset")
+    $("#loading").css("display", "unset")
     let response = await fetch("/getStreams?url="+url_string)
     let responseText = await response.text()  
-    $("#loading-streams").css("display", "none")
+    $("#loading").css("display", "none")
     $("#mainad").css('display', 'none')
-    $("#events-wrapper").html(responseText) 
+    if(responseText.includes('Error')){
+        alert('Error : File is too long , Try uploading shorter videos')
+    }else{
+        $("#events-wrapper").html(responseText) 
+    }
 }
 
 
 const getDownload = async (media, resolution )=>{
     $("#mainad").css('display', 'unset')
-    $("#events-wrapper").html("<p class='mssg' >Getting Your Download , Please Wait</p>")
+    $("#loading").css('display', 'unset')
     const request = await fetch(`/getDownload/${media}/${resolution}`)
     const response = await request.text()
-    let msgHTML = "<a onclick='notification()' href='"+ response +"' download><p class='mssg download'>Download</p></a>" 
-    $("#events-wrapper").html(msgHTML)
+    $("#loading").css('display', 'none')
+    $("#download-ready").css("display", "unset")
+    $("#download-ready").attr("href",`./static/temp/${response}`)
 }
 
 const notification = function(){

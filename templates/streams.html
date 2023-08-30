@@ -2,7 +2,7 @@
 <div id="thumbnail"><img src="{{thumbnail}}" alt=""></div>
 <p class="mssg">Choose Your Format :</p>
 <div id="streams">
-    <div class="stream" onclick="getDownload('audio', '')">MP3 Audio</div>
+    <div class="stream aud" onclick="getDownload('audio', 'blabla')">MP3 Audio</div>
     {% for r in res %}
     <div class="stream" onclick="getDownload('video', '{{r}}')">MP4 {{r}}</div>
     {% endfor %}
