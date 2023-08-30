@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request
-from pytube import YouTube
-import moviepy.editor as mp
+import yt_dlp 
+import random
+import Cryptodome
 
 import os
 
@@ -12,44 +13,55 @@ def index():
 
 @app.route("/getStreams/")
 def getStreams():
+    global url, title
     url = request.args.get("url")
-    global yt 
-    yt = YouTube(url)
-    myStreams = yt.streams.filter(progressive = True)
-    return render_template("streams.html", streams = myStreams)
+    with yt_dlp.YoutubeDL() as ydl:
+        meta = ydl.extract_info(url, download=False)
+        formats = meta.get('formats')
+        title = meta.get('title', meta)
+        thumbnail = meta.get('thumbnail', meta)
+    
+    res = []
+    allres = ['144p', '240p', '360p', '480p', '720p', '1080p'] 
+
+    for f in formats :
+        if f['ext'] == 'mp4' :
+            if 'format_note' in f :
+                if f['format_note'] in allres :  
+                    res.append(f['format_note'])
+
+    return render_template("streams.html", title = title, thumbnail = thumbnail, res = set(res))
+
 
 @app.route("/getDownload/<media>/<res>")
 def getDownload(media, res):
-    global stream
-    stream = yt.streams.filter(progressive=True, res = res).first()
-
+    resolution = res.replace('p', '')
+    print(f'bestvideo[height={resolution}][ext=mp4]+bestaudio')
+    fname = random.randint(0, 99999)
+    link = f"./static/temp/{fname}"
     if media == "video" :
-        stream.download()
-        return f"Downloading your video : <b>{stream.title}</b> " 
+        opts = {
+            'format' : 'bestvideo[height=240]+bestaudio[ext=m4a]/bestvideo[width=240]+bestaudio[ext=m4a]',
+            'merge_output_format' : 'mp4',
+            'outtmpl' : link
+        }
+        with yt_dlp.YoutubeDL(opts) as ydl :
+            ydl.download(url)
+        return f"{link}.mp4"
         
     elif media == "audio" : 
-        stream.download()
-        clip = mp.VideoFileClip(f"{stream.title}.mp4" )
-        clip.audio.write_audiofile(f"${stream.title}.mp3")
-        return "Audio Downloading"
+        link = 'temp/'+str(random.randint(0.99999))+'.mp4'
+        opts = {
+            'format' : 'bestaudio[ext=mp3]/bestaudio[ext=m4a]',
+            'merge_output_format' : 'mp4',
+            'outtmpl' : 'static/temp/'+ str(random.randint(0,99999))
+            }
+        with yt_dlp.YoutubeDL(opts) as ydl :
+            ydl.download(url)
+        return f"{link}.mp3"
     else : 
         return "error downloading your file" 
         quit()       
-    
-
-@app.route('/getProgress')
-def getProgress():
-    streamSize = stream.filesize
-    mediaExtension = "mp3" if media == "audio" else "mp4"
-    download = f"/{stream.title}.${mediaExtension}"
-    downloaded = os.stat(file_name).st_size
-
-    progress = (downloaded / streamSize) * 100
- 
-    return progress
         
-
-    
-
 if __name__ == "__main__" :
     app.run(debug = True)

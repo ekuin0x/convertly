@@ -6,8 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Converly | {% block title %} {% endblock %}</title>
-    <!--<link rel="stylesheet" href="{{url_for('static', filename='/main.css')}}">-->
-<link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>   
 </head>
 
@@ -16,33 +15,27 @@
 
     <div id="wrapper">
         <div id="logo">Convertly <i class="bi bi-youtube"></i></div>
-        <p>Convert Youtube videos to Audio & get the full video in your prefered resolution !</p>
+        <a target="_blank" href="//oulsools.com/4/6212020"><img id="mainad" src="{{url_for('static', filename='media/mainad.png')}}" alt=""/></a>
+        <p><b>Convert & Download Youtube videos in your prefered format! </b> </p>
         <div id="search-wrapper">
-            <input type="text"  />
-            <i class="bi bi-search"></i>
+            <input id="mediaUrl"  type="text" placeholder="Your Youtube Link" />
+            <i class="bi bi-search" onclick="validateUrl()" ></i>
         </div>
 
         <div id="events-wrapper">
-            <!-- streams page -->
-            <p><u>Video Title</u>: Bahaa Sultan - Ana Mosamem (Audio) | بهاء سلطان - أنا مصمم</p>
-            <div id="thumbnail"><img src="../static/media/636009.png" alt=""></div>
-            <p>Choose Your Format</p>
-            <div id="streams">
-                <div class="stream">MP3 Audio</div>
-                <div class="stream">MP4 720px</div>
-                <div class="stream">MP4 480px</div>
+            <div id="loading-streams">
+                <div id="loading-bar" ><img src="{{url_for('static', filename='media/giphy.gif')}}" alt=""></div>
+                <p>Won't take more than a minute ! , Please wait </p>
             </div>
-
+            <br>
         </div>
 
     </div>
   
-    <!--
     {% block body %}
     
     {% endblock %}  
-
-    <script type="text/javascript" src="{{url_for('static', filename='/script.js')}}"></script>-->
+<script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
 
 </body>
 </html>
