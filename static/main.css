@@ -129,6 +129,8 @@ footer{
   flex-wrap: wrap;
   justify-content: center;
   width: fit-content;
+  max-width:500px;
+  margin: auto;
 }
 
 #events-wrapper .stream{
