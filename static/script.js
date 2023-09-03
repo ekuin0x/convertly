@@ -18,9 +18,12 @@ const getStreams = async(url_string)=>{
     let responseText = await response.text()  
     $("#loading").css("display", "none")
     $("#mainad").css('display', 'none')
-    if(responseText.includes('Error')){
+    if(responseText.includes('Long')){
         alert('Error : File is too long , Try uploading shorter videos')
-    }else{
+        location.reload();
+    }else if (responseText.includes('external'))
+        alert("External Error, Please try again")
+    else{
         $("#events-wrapper").append(responseText)
         }
 }
@@ -36,7 +39,7 @@ const getDownload = async (media, resolution )=>{
 }
 const notification = function(){
     alert('File is being downloaded successfully !')
-    window.open("","_blank")
+    //window.open("","_blank")
     location.reload();
 }
 

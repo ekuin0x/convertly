@@ -23,7 +23,7 @@ def getStreams():
         duration = int(meta.get('duration')) / 60 # minutes
    
     if duration > 45 :
-        return "Error"
+        return "Long"
 
     else :
         res = []
@@ -67,7 +67,7 @@ def getDownload(media, res):
 
         return f"{fname}.mp3"
     else : 
-        return "error downloading your file" 
+        return "external" 
         quit()       
     
 if __name__ == "__main__" :

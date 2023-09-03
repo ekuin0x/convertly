@@ -127,12 +127,11 @@ footer{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 400px;
-  margin: auto;
+  justify-content: center;
+  width: fit-content;
 }
 
 #events-wrapper .stream{
-
     padding: 6px;
     margin: 5px 10px;
     font-weight: lighter;
