@@ -41,7 +41,7 @@ def getStreams():
 @app.route("/getDownload/<media>/<res>")
 def getDownload(media, res):
     fname = random.randint(0, 999999)
-    link = f"./static/temp/{fname}"
+    link = f"static/temp/{fname}"
     if media == "video" :
         resolution = res.replace('p', '')
         opts = {
@@ -56,7 +56,7 @@ def getDownload(media, res):
     elif media == "audio" : 
         opts = {
             'format' : 'bestaudio[ext=m4a]',
-            'outtmpl' : link
+            'outtmpl' : f"{link}.m4a"
         }
         with yt_dlp.YoutubeDL(opts) as ydl :
             ydl.download(url)
@@ -69,6 +69,6 @@ def getDownload(media, res):
     else : 
         return "error downloading your file" 
         quit()       
-        
+    
 if __name__ == "__main__" :
     app.run(debug = False)

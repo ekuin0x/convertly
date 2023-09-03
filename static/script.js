@@ -10,8 +10,9 @@ const validateUrl = () =>{
         alert("Invalid Link ! , Please enter a valid youtube link")
     }
 }
-
 const getStreams = async(url_string)=>{
+    $("#search-wrapper").css("display", "none")
+    $("footer").css("display", "none")
     $("#loading").css("display", "unset")
     let response = await fetch("/getStreams?url="+url_string)
     let responseText = await response.text()  
@@ -20,23 +21,22 @@ const getStreams = async(url_string)=>{
     if(responseText.includes('Error')){
         alert('Error : File is too long , Try uploading shorter videos')
     }else{
-        $("#events-wrapper").html(responseText) 
-    }
+        $("#events-wrapper").append(responseText)
+        }
 }
-
-
 const getDownload = async (media, resolution )=>{
     $("#mainad").css('display', 'unset')
-    $("#loading").css('display', 'unset')
+    $("#events-wrapper > *:not(#loading)").html("")
+    $("#loading").css('display', 'block')
     const request = await fetch(`/getDownload/${media}/${resolution}`)
     const response = await request.text()
     $("#loading").css('display', 'none')
-    $("#download-ready").css("display", "unset")
-    $("#download-ready").attr("href",`./static/temp/${response}`)
+    let download = `<a id='downloadready' onclick='notification()' href='/static/temp/${response}' download><p class='mssg'>Download</p></a>`
+    $("#events-wrapper").html(download)
 }
-
 const notification = function(){
     alert('File is being downloaded successfully !')
+    window.open("","_blank")
     location.reload();
 }
 
